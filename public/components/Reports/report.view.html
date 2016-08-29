@@ -3,11 +3,16 @@
   <div class="container row" >
     <div class="col-sm-4" style="text-align:left">
       <div class="checkbox" ng-repeat="param in params">
-        <label><input type="checkbox" value="" ng-model="param.checked" ng-change="selectedParams()">{{param}}</label>
+        <label><input
+    type="checkbox"
+    name="selectedParams[]"
+    value="{{param}}"
+    ng-checked="selection.indexOf(param) > -1"
+    ng-click="toggleSelection(param)">{{param}}</label>
       </div>
     </div>
     <div class="col-sm-8">
-      <multi-series data="graphData"></multi-series>
+      <multi-series data="graphData" checked="selection"></multi-series>
     </div>
   </div>
 </div>

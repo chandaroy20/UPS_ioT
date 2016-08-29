@@ -1,9 +1,26 @@
 myApp.controller('reportController', ['$scope', '$state', '$rootScope', 'reportService', function($scope, $state, $rootScope, reportService) {
 
   $scope.params=["Temperature","Humidity","Current","Voltage","KW","H2"];
-  console.log("hello");
+  $scope.selection = ["Humidity","Current","Voltage","KW","H2"];
+  $scope.toggleSelection = function toggleSelection(param) {
+    var idx = $scope.selection.indexOf(param);
+    // is currently selected
+    if (idx > -1) {
+      $scope.selection.splice(idx, 1);
+      console.log($scope.selection);
+    }
+
+    // is newly selected
+    else {
+      $scope.selection.push(param);
+      console.log($scope.selection);
+    }
+  };
+
+
   $scope.selectedParams=function () {
     $scope.showGraph = $filter('filter')($scope.params, {checked: true});
+    console.log($scope.showGraph);
   }
   reportService.getData().then(function(data){
     $scope.graphData=(JSON.stringify(data.data));
@@ -22,7 +39,8 @@ myApp.directive('multiSeries', function(){
   return{
     restrict:'E',
     scope:{
-      data:'='
+      data:'=',
+      checked:'='
     },
     link: function(scope, element, attrs){
 
@@ -31,24 +49,26 @@ myApp.directive('multiSeries', function(){
       .attr("width", width)
       .attr("height", height + 100);
 
-
-      scope.$watch('data', function (newVal, oldVal) {
-
+      //       scope.$watch('checked',function(new,old){
+      // if(!new) return;
+      //       var checked=new;
+      //       console.log(new);
+      //       })
+      console.log(scope);
+      scope.$watchCollection('[data,checked]', function (newVal, oldVal) {
         svg.selectAll('*').remove();
         if (!newVal) {
           return;
         }
-var data=JSON.parse(newVal);
-console.log((data).length);
+        var data=JSON.parse(newVal[0]);
+        var selection=newVal[1];
         var temperature = [];
         var humidity = [];
         var h2=[];
         var voltage=[];
         var current=[];
         var kw=[];
-var j=0;
         for(var i=0;i<Object.keys((data)).length;i++) {
-console.log(j++);
           temperature.push({"parameter":"temperature","value":data[i].temperature,"date":data[i].date});
           humidity.push({"parameter":"humidity","value":data[i].humidity,"date":data[i].date});
           h2.push({"parameter":"h2","value":data[i].h2,"date":data[i].date});
@@ -56,7 +76,8 @@ console.log(j++);
           current.push({"parameter":"current","value":data[i].current,"date":data[i].date});
           kw.push({"parameter":"kw","value":data[i].kw,"date":data[i].date});
         }
-        records(temperature, humidity,h2,voltage,current,kw);
+        console.log(attrs.checked);
+        records(temperature, humidity,h2,voltage,current,kw,selection);
       })
 
 
@@ -65,16 +86,8 @@ console.log(j++);
 
 
 
-      function records(temperature, humidity,h2,voltage,current,kw) {
+      function records(temperature, humidity,h2,voltage,current,kw,selection) {
 
-        //Create the SVG Viewport selection
-        //var d3 = $window.d3;
-        //var rawSvg=elem.find('svg');
-        //var svg = d3.select(rawSvg[0]);
-
-        // var svg = d3.select("#graph").append("svg")
-        // .attr("width", width)
-        // .attr("height", height);
 
         //Create the Scale we will use for the Axis
         var xAxisScale = d3.scale.linear()
@@ -149,11 +162,17 @@ console.log(j++);
         .y(function(d) { return (400-d.value*4)+10; })
         .interpolate("linear");
         //The line SVG Path we draw
-        var temperatureGraph = svg.append("svg:path")
-        .attr("d", temperatureLine(temperature))
-        .attr("stroke", "blue")
-        .attr("stroke-width", 2)
-        .attr("fill", "none");
+
+
+          var temperatureGraph = svg.append("svg:path")
+          .attr("d", temperatureLine(temperature));
+          if(selection.indexOf("Temperature")!=-1)
+          {
+        temperatureGraph.attr("stroke", "blue")
+          .attr("stroke-width", 2)
+          .attr("fill", "none");
+        }
+else temperatureGraph.attr("display","none");
 
 
         //The line SVG Path we draw
