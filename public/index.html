@@ -8,7 +8,7 @@
 
 	<!-- Mobile viewport optimized -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
+<script src="//d3js.org/d3.v4.min.js"></script>
 	<!-- Bootstrap CSS -->
 	<link href="stylesheets/bootstrap.min.css" rel="stylesheet">
 	<link href="stylesheets/bootstrap-glyphicons.css" rel="stylesheet">
@@ -19,9 +19,8 @@
 
 	<!-- Include Modernizr in the head, before any other Javascript -->
 	<script src="javascripts/modernizr-2.6.2.min.js"></script>
-	<link rel="stylesheet" href="stylesheets/circle.css">
 
-
+<!-- <srcipt src="javascripts/d3.v3.min.js"></srcipt> -->
 
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css"/>
@@ -46,7 +45,7 @@
 
 
 </head>
-<body ng-controller="dashboardController">
+<body ng-controller="homeController">
 
 	<div class="container" id="main">
 
@@ -70,7 +69,10 @@
 						</li>
 
 						<li>
-							<a href="#">Dashboard></a>
+							<a href="dashboard">Dashboard></a>
+						</li>
+						<li>
+							<a ui-sref="report">Report></a>
 						</li>
 
 					</ul>
@@ -82,9 +84,9 @@
 
 					<ul class="nav navbar-nav pull-right">
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user-md" style="font-size:24px;"></span> My Account <strong class="caret"></strong></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" type="button"><span class="fa fa-user-md" style="font-size:24px;"></span> My Account <strong class="caret"></strong></a>
 
-							<ul class="dropdown-menu">
+							<ul class="dropdown-menu" >
 								<li>
 									<a href="#"><span class="glyphicon glyphicon-wrench"></span> Settings</a>
 								</li>
@@ -111,79 +113,12 @@
 		</div><!-- end navbar -->
 		<br><br><br><br><br>
 
-		<div class="row features" >
-			<div class="col-sm-4 feature text-center" >
-				<div class="c100  p{{parameters.temperature}} orange text-center" >
-					<span>{{parameters.temperature}} &deg;</span>
-					<span class="caption">Temperature</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-			</div>
+<div class="container" ui-view>
 
-			<div class="col-sm-4">
-				<div class="c100  p{{parameters.current}} green ">
-					<span>{{parameters.current}} A</span>
-					<span class="caption">Current</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="c100 medium p{{parameters.voltage}} green ">
-					<span>{{parameters.voltage}} V</span>
-					<span class="caption">Voltage</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="row">
-			<div class="col-sm-4">
-				<div class="c100 medium p{{parameters.humidity}} green ">
-					<span>{{parameters.humidity}} %</span>
-					<span class="caption">Humidity</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="c100 medium p{{parameters.power}} green ">
-					<span>{{parameters.power}} W</span>
-					<span class="caption">Power</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="c100 medium p{{parameters.efficiency}} green ">
-					<span>{{parameters.efficiency}} %</span>
-					<span class="caption">Efficiency</span>
-					<div class="slice">
-						<div class="bar"></div>
-						<div class="fill"></div>
-					</div>
-				</div>
-			</div>
-
-		</div>
+</div>
 
 
 
-
-		<script src="http://code.jquery.com/jquery.js"></script>
 		<!-- Bootstrap JS -->
 		<script src="javascripts/bootstrap.min.js"></script>
 
@@ -192,9 +127,13 @@
 	</div>
 
 	<script src="app1.js"></script>
+<script src="components/home/home.controller.js"></script>
+
+<script src="components/Dashboard/dashboard.route.js"></script>
 <script src=components/Dashboard/dashboard.controller.js></script>
 <script src="components/Dashboard/dashboard.service.js"></script>
 
+<script src="components/Reports/report.route.js"></script>
 <script src="components/Reports/report.controller.js"></script>
 <script src="components/Reports/report.service.js"></script>
 </body>

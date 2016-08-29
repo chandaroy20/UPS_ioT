@@ -1,4 +1,4 @@
-myApp.controller('dashboardController', ['$scope', '$state', '$rootScope', 'dashboardService', function($scope, $state, $rootScope, homeService) {
+myApp.controller('dashboardController', ['$scope', '$state', '$rootScope', 'dashboardService', function($scope, $state, $rootScope, dashboardService) {
 
 $scope.parameters={
 "temperature":25,

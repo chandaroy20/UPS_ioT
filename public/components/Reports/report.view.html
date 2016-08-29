@@ -1,0 +1,13 @@
+<div class="container"  >
+  <script src="components/Reports/chart.js"></script>
+  <div class="container row" >
+    <div class="col-sm-4" style="text-align:left">
+      <div class="checkbox" ng-repeat="param in params">
+        <label><input type="checkbox" value="" ng-model="param.checked" ng-change="selectedParams()">{{param}}</label>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <multi-series data="graphData"></multi-series>
+    </div>
+  </div>
+</div>
